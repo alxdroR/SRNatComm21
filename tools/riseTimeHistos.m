@@ -39,7 +39,7 @@ data.numCells = numCellsUsed;
 
 % plot
 figure; 
-histogram(data.riseUS,-30.5:0.5:0,'Normalization','probability');box off; xlabel({'time of activity rise' 'relative to upcoming saccade(s)'});ylabel('fraction of all fixations'); setFontProperties(gca)
+histogram(data.riseUS,-30.5:0.5:0,'Normalization','probability');box off; xlabel({'activity rise-time' 'relative to upcoming saccade (s)'});ylabel('fraction of all fixations'); setFontProperties(gca)
 xlim([-30 0]);ylim([0 0.08])
 set(gcf,'PaperPosition',[1 1 2.2 2.2])
 

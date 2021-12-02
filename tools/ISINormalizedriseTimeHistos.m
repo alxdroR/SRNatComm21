@@ -24,7 +24,7 @@ riseMeasured = ~isnan(AnticipatoryAnalysisMatrix(:,2));
 data.riseNormed = normedRiseTimes(riseMeasured);
 
 % plot
-XLABEL = 'time of activity rise normalized by fixation duration';
+XLABEL = 'activity rise-time normalized by fixation duration';
 YLABEL = 'fraction of all fixations';
 YTICKLABEL = {'0','0.05','0.1','0.15'};
 YLIM = [0 0.15]; YTICK = [0,0.05,0.1,0.15];

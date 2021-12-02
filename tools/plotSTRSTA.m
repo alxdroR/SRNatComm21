@@ -18,6 +18,7 @@ classdef plotSTRSTA < figures & srPaperPlots
         staAXOffset
         staAXHeight
         deconvOffset
+        addScaleBar
     end
     
     methods
@@ -25,7 +26,7 @@ classdef plotSTRSTA < figures & srPaperPlots
             options = struct('filename',[],'paperPosition',[0 0 8.5 11],...
                 'time',[],'STRL',[],'STRR',[],'STA',[],'STACIL',[],'STACIU',[],'deconvSTA',[],...
                 'dFRange',[],'rightSTAColor',[],'leftSTAColor',[],'lineAtZeroWidth',[],'spaceBetweenSTRLR',[],'tauLimits',[],...
-                'strAXOffset',[],'strAXHeight',[],'staAXOffset',[],'staAXHeight',[],'deconvOffset',false);
+                'strAXOffset',[],'strAXHeight',[],'staAXOffset',[],'staAXHeight',[],'deconvOffset',false,'addScaleBar',false);
             options = parseNameValueoptions(options,varargin{:});
             
             if isempty(options.filename)
@@ -46,6 +47,7 @@ classdef plotSTRSTA < figures & srPaperPlots
             obj.staAXOffset = options.staAXOffset;
             obj.staAXHeight = options.staAXHeight;
             obj.deconvOffset = options.deconvOffset;
+            obj.addScaleBar = options.addScaleBar;
             if isempty(options.time) || isempty(options.STRL) || isempty(options.STRR) || isempty(options.STA)
                 % try to load based on other information
             else
@@ -71,7 +73,7 @@ classdef plotSTRSTA < figures & srPaperPlots
                 % plot the loaded data -----------------
                 ax = showSTAwRaster(obj.data.STRL,obj.data.STRR,obj.data.time,obj.data.STA,obj.data.STACIL,obj.data.STACIU,'dFRange',obj.dFRange,...
                     'rightSTAColor',obj.rightSTAColor,'leftSTAColor',obj.leftSTAColor,'lineAtZeroWidth',obj.lineAtZeroWidth,'nrowsSpace',obj.spaceBetweenSTRLR,...
-                    'xlim',obj.tauLimits,'deconvSTA',obj.data.deconvSTA,'deconvOffset',obj.deconvOffset);
+                    'xlim',obj.tauLimits,'deconvSTA',obj.data.deconvSTA,'deconvOffset',obj.deconvOffset,'addScaleBar',obj.addScaleBar);
                 box off;
                 setFontProperties(ax(2),'fontName',obj.FontName,'fontSize',obj.FontSize,'fontColor',obj.FontColor);
                 set(ax(2),'YTickLabel',[],'YTick',[],'YColor','w','XTick',-10:2:10,...

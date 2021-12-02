@@ -1,5 +1,5 @@
-function suppFig1e()
-% suppFig1e
+function suppFig2()
+% suppFig2
 % adr
 % ea lab
 % weill cornell medicine
@@ -7,9 +7,15 @@ function suppFig1e()
 
 clear
 activeColor = [255 44 30]./255; nonActiveColor = [199 181 98]./255;
-[nonActiveStat,activeStat,~,~,~,cellIDs]=compareActiveNonActiveUseMOandNMFROIs('all','all',0.8,'stat','Max');
-names = {'not selected','selected'};
+%[nonActiveStat,activeStat,~,~,~,cellIDs,MOStat]=compareActiveNonActiveUseMOandNMFROIs('all','all',0.8,'stat','Max');
+[nonActiveStat,activeStat,~,~,~,cellIDs,MOStat]=compareActiveNonActiveUseMOandNMFROIs('all','all',0.05,'stat','Max');
 
+names = {'not selected','selected'};
+[~,inMBCriteria] = createFootprintSelector('cutCellsWLowSignal',true,'staDFFFilename','calcSTA2NMFOutput','lowSigPercentile',0.01);
+CoordinatesMO = registeredCellLocationsBigWarp('register2Zbrain',true,'caExtractionMethod','MO');
+inMBMO = removeCellsRegistered2MB(CoordinatesMO);
+activeStat = activeStat(~inMBCriteria,:);
+nonActiveStat = MOStat(logical(cellIDs.MO(:,3)) & ~inMBMO);
 figure;
 boxplot([nonActiveStat;activeStat],names([ones(length(nonActiveStat),1);2*ones(length(activeStat),1)]),'Symbol','w','colors',[nonActiveColor;activeColor]);
 box off
@@ -35,13 +41,16 @@ if printOn
 end
 %% Figure caption S1E stats
 p=anova1([nonActiveStat;activeStat],names([ones(length(nonActiveStat),1);2*ones(length(activeStat),1)]));
-sum(~isnan(nonActiveStat))
-sum(~isnan(activeStat))
+fprintf('n=%d non-selected cells, n=%d selected cells\n',sum(~isnan(nonActiveStat)),sum(~isnan(activeStat)));
+
+notAID = cellIDs.MO(logical(cellIDs.MO(:,3)) & ~inMBMO,:);
+cellIDs.NMF = cellIDs.NMF(~inMBCriteria,:);
+
 global saveCSV
 if saveCSV
-    X = [[cellIDs.NMF(:,1:3);cellIDs.MO(:,1:3)]...
-        [(1:size(cellIDs.NMF,1))';(1:size(cellIDs.MO,1))']...
-        [cellIDs.NMF(:,4);cellIDs.MO(:,4)],[activeStat;nonActiveStat]];
+    X = [[cellIDs.NMF(:,1:3);[notAID(:,1:2) notAID(:,4)]]...
+        [(1:size(cellIDs.NMF,1))';(1:size(notAID,1))']...
+        [cellIDs.NMF(:,4);~notAID(:,4)],[activeStat;nonActiveStat]];
     [~,~,fileDirs] = rootDirectories;
     fileID = fopen([fileDirs.scDataCSV 'Supplementary Fig. 1.csv'],'a');
     fprintf(fileID,'Panel\ne\n');

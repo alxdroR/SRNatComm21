@@ -35,6 +35,10 @@ if isempty(options.correctiveMetaData)
     options.correctiveMetaData = registrationShifts;
 end
 
+if strcmp(options.caExtractionMethod,'MO')
+        warning('make sure size cut-off here matches what was used when constructing MO files');
+        maxCellArea = 12*12;
+end
 % load bridgeBrain Metadata
 bridgeBrainFile =  fileDirs.twoPBridgeBrain;
 bridgeBrainMeta = rawData.grabMetaData(bridgeBrainFile,'isImageJFile',true,'checkIfScanImageFile',false);
@@ -68,7 +72,14 @@ for expIndex = 1:length(fid)
         coorPoints = dlmread(getFilenames(fid{expIndex},'expcond',expCond{expIndex},'fileType','regLandmarks','dir',options.dir),',');
     end
     coordinateFile = getFilenames(fid{expIndex},'expcond',expCond{expIndex},'fileType','catraces','caTraceType',options.caExtractionMethod,'dir',options.dir);
-    load(coordinateFile,'localCoordinates');
+    if strcmp(options.caExtractionMethod,'MO')
+        load(coordinateFile,'localCoordinates','cellArea');
+        warning('make sure size cut-off here matches what was used when constructing MO files');
+        passesSizeCut = cellfun(@(x) x'<=maxCellArea,cellArea,'UniformOutput',false);
+        passesSizeCut = cat(1,passesSizeCut{:});
+    else
+        load(coordinateFile,'localCoordinates');
+    end
     metaDataFile = getFilenames(fid{expIndex},'expcond',expCond{expIndex},'fileType','catraces','caTraceType','NMF','dir',options.dir);
     load(metaDataFile,'expMetaData');
     
@@ -79,6 +90,9 @@ for expIndex = 1:length(fid)
         localCoordinatesCellXYZ = cellfun(@(x,y) [x(:,2),x(:,1),repmat(y,size(x,1),1)],localCoordinates,num2cell((1:length(localCoordinates))',length(localCoordinates)),'UniformOutput',false);
     end
     U = cat(1,localCoordinatesCellXYZ{:});
+    if strcmp(options.caExtractionMethod,'MO')
+        U = U(passesSizeCut,:);
+    end
     % the -0.5 for the pixels and z-plane matches the convention in BigWarp (checked on 2/11/2021)
     % change plane index to z value
     U(:,3) = U(:,3)-1;

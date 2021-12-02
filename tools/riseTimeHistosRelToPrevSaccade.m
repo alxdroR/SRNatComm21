@@ -26,7 +26,7 @@ data.riseUS = Rtimes(riseMeasured);
 
 % plot
 figure; 
-histogram(data.risePS,0:0.5:31,'Normalization','probability','FaceColor',[0.0 0.1882 0.3137]);box off; xlabel({'time of activity rise' 'relative to previous saccade(s)'});ylabel('fraction of all fixations'); setFontProperties(gca)
+histogram(data.risePS,0:0.5:31,'Normalization','probability','FaceColor',[0.0 0.1882 0.3137]);box off; xlabel({'activity rise-time' 'relative to previous saccade (s)'});ylabel('fraction of all fixations'); setFontProperties(gca)
 xlim([0 31]);ylim([0 0.08])
 set(gcf,'PaperPosition',[1 1 2.2 2.2])
 

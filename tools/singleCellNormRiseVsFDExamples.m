@@ -35,7 +35,7 @@ for cIndex = 1 : numCells
      end
 end
 %%
-XLABEL = {'fixation duration (s)'};YLABEL = {'time of rise' 'normalized by fixation duration'};
+XLABEL = {'fixation duration (s)'};YLABEL = {'activity rise-time' 'normalized by fixation duration'};
 
 XLIM = [0 40];YLIM = [-20 0];
 numRows=5; numC = 3;

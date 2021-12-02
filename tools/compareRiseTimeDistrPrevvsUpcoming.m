@@ -26,7 +26,7 @@ data.riseUS = Rtimes(riseMeasured);
 
 % plot
 figure; 
-ecdf(abs(data.riseUS));hold on; ecdf(abs(data.risePS));box off; xlabel({' time of activity rise (s)'});ylabel('cumulative fraction of all fixations'); setFontProperties(gca)
+ecdf(abs(data.riseUS));hold on; ecdf(abs(data.risePS));box off; xlabel({'absolute value of' 'activity rise-time (s)'});ylabel('cumulative fraction of all fixations'); setFontProperties(gca)
 xlim([0 31]);ph=get(gca,'Children');ph(1).Color = [0.0 0.1882 0.3137];
 lh=legend('a','b');
 set(lh,'FontName','Ariel','FontSize',6.5,'Box','off','LineWidth',0.1)

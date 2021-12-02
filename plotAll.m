@@ -37,7 +37,7 @@ fig1e.plot;fig1e.printAndSave;
 fig1e.toCSV;
 f1obj.printSacDirAmpStats('sacAmpData',fig1e.data); clear fig1e
 clear f1obj
-%% Fig. 2a
+    %% Fig. 2a
 showBridgeBrainSample
 %% Fig. 2b
 demoImage
@@ -48,7 +48,7 @@ SRID = [7,9,34];
 fig2obj = fig2('showSTADeconv',true,'deconvOffset',false,'allIDsForFigure',[tonicID;burstID;SRID],'STAFilename','calcSTA2NMFOutput','STADeconvFilename','calcSTA2NMFDeconvOutput',...
     'dFFRange',2.3,'timeWidth',150,'eyeRange',35,'dFFLineWidth',1.5,'dFFLineColor',[0 0 1],...
     'deconvLineWidth',1.5,'deconvLineColor',[0 0 0],'paperPosition',[0 0 4.25 1.333],...
-    'STRDFRange',[0 3],'rightSTAColor',[60 11 178]./256,'leftSTAColor',[218 84 26]./256,...
+    'STRDFRange',[0 1.5],'rightSTAColor',[60 11 178]./256,'leftSTAColor',[218 84 26]./256,...
     'lineAtZeroWidth',0.5,'spaceBetweenSTRLR',1,'tauLimits',[-8 8],'STRSTAPaperPosition',[0 2 4.25 1.55],...
     'strAXOffset',0.67,'strAXHeight',0.30,'staAXOffset',0.27,'staAXHeight',0.4);
 
@@ -61,6 +61,8 @@ fprintf('Burst: n=%d,%d fixations about saccades to the left/right\n',fig2obj.nT
 fig2obj = fig2obj.runFig2biii(SRID,'traceFilename','exemplarSRFig2Trace','timeOffset2plot',20,'axesOverlap',0.22,'showAxis',false,'showDeconv',true,...
     'strstaFilename','exemplarSRSTRA');pause(0.1);
 fprintf('SR: n=%d,%d fixations about saccades to the left/right\n',fig2obj.nTrialsL(3),fig2obj.nTrialsR(3));
+fig2obj = fig2obj.runFig2biii(SRID,'traceFilename','exemplarSRFig2Trace','timeOffset2plot',20,'axesOverlap',0.22,'showAxis',false,'showDeconv',true,...
+    'strstaFilename','exemplarSRSTRA-scale','addScale',true);pause(0.1);
 clear fig2obj
 %% S Fig. 1a
 demonstrateImgRegistration

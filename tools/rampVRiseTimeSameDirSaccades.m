@@ -43,7 +43,7 @@ errorbar(binCenters,binnedData,sqrt(binVar./numberSamp),'Color',[1 1 1]*0.06); h
 if ~isempty(options.YLIM)
     ylim(options.YLIM);
 end
-xlim([-11.1 -0.5]);box off;xlabel('time of activity rise (s)');ylabel(options.YLABEL);setFontProperties(gca)
+xlim([-11.1 -0.5]);box off;xlabel('activity rise-time (s)');ylabel(options.YLABEL);setFontProperties(gca)
 
 [ncS,nfS,neS]=getSampleSizeFromSRMatrix(fixationIDs(gofCriteria & sameDir,:));
 [ncO,nfO,neO]=getSampleSizeFromSRMatrix(fixationIDs(gofCriteria & ~sameDir,:));

@@ -75,6 +75,8 @@ fprintf('\n\n Across cells and fixations, the rate of rise\nvaried between %0.3f
 
 % figure Caption 5C
 fprintf('\n\n Histogram of rates of pre-saccadic fluorescence increases \n fit (n= %d events from %d cells across %d fish).\n\n',data.nEvents,data.numCells,data.numFish)
+[nc,nf,ne]=getSampleSizeFromSRMatrix(fixationIDs(riseMeasured & gofCriteria,:));
+fprintf('%d fixations from %d cells examined over %d independent fish\n',ne,nc,nf)
 if saveCSV
     fixationIDsUsed = fixationIDs(riseMeasured & gofCriteria,:);
     [~,~,fileDirs] = rootDirectories;

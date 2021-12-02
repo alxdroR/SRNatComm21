@@ -36,7 +36,7 @@ rtVISIFnc = @(x) (data.lmodObj.Coefficients.Estimate(2)*x.^2 + data.lmodObj.Coef
 
 addBestFitLines = true;
 bestFitLineColor = 'k';
-YLABEL1 = {'time of activity rise' 'normalized by fixation duration'};
+YLABEL1 = {'activity rise-time' 'normalized by fixation duration'};
 YLABEL2 = {'time of activity rise' 'relative to upcoming saccade (s)'};
 XLABEL = 'fixation duration (s)';
 YLIMRiseTimes = [-11 0];

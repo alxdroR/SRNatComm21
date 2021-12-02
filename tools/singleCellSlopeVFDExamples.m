@@ -13,7 +13,7 @@ if  isempty(options.analysisCell)
 else
     analysisCell = options.analysisCell;
 end
-XLABEL = {'rise-time (s)'};
+XLABEL = {'activity rise-time (s)'};
 
 XLIM = [0 40];YLIM = [-20 0];
 numRows=5; numC = 3;

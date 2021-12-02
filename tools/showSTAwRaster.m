@@ -6,7 +6,7 @@ function varargout= showSTAwRaster(yL,yR,bt,STA,STCIL,STCIU,varargin)
 % 10/2012 - 2020
 
 options = struct('dFRange',[0 1.6],'leftSTAColor',[60 11 178]./256,'rightSTAColor',[218 84 26]./256,'lineAtZeroWidth',1,'nrowsSpace',2 ...
-,'xlim',[-10,10],'deconvSTA',[],'deconvMarker','--','deconvOffset',true);
+,'xlim',[-10,10],'deconvSTA',[],'deconvMarker','--','deconvOffset',true,'addScaleBar',false);
 options = parseNameValueoptions(options,varargin{:});
 
 
@@ -22,7 +22,9 @@ ax(1)=subplot(nrows,nc,1);
 imagesc(bt,[],lrComboSTR,[mn options.dFRange(2)-options.dFRange(1)+mn]); hold on;
 axis off;colormap('gray')
 plot([0 0],[0 size(lrComboSTR,1)],'w--','LineWidth',options.lineAtZeroWidth);
-
+if options.addScaleBar
+    colorbar;
+end
 ax(2) = subplot(nrows,nc,2);
 %errorbar(bt,STA(:,1),STA(:,1)-STCIL(:,1),-STA(:,1)+STCIU(:,1),'color',options.leftSTAColor); hold on;
 
@@ -54,6 +56,9 @@ if ~isempty(options.deconvSTA)
     ylim([0 options.dFRange(2)-options.dFRange(1)]+mn)
 else
     ylim([0 options.dFRange(2)-options.dFRange(1)]+mn)
+end
+if options.addScaleBar
+    plot([1 1]*-7,[0 1] + 0.08,'k-')
 end
 linkaxes(ax,'x');
 

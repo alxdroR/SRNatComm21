@@ -1,4 +1,4 @@
-function [nonActiveStat,activeStat,nonActiveCells,activeCells,fluorescence,cellIDs]=compareActiveNonActiveUseMOandNMFROIs(expIndex,planeIndexIN,hop,varargin)
+function [nonActiveStat,activeStat,nonActiveCells,activeCells,fluorescence,cellIDs,MOStat]=compareActiveNonActiveUseMOandNMFROIs(expIndex,planeIndexIN,hop,varargin)
 options = struct('stat','MAD');
 options = parseNameValueoptions(options,varargin{:});
 % lop is little overlap percentage
@@ -19,8 +19,10 @@ activeCells=[];
 cellIDs = struct('NMF',[],'MO',[]);
 nonActiveStat = [];
 activeStat = [];
+MOStat = [];
+nmo = 0;
 for expIndex = expIndexV
-    load(getFilenames(fid{expIndex},'expcond',expCond{expIndex},'fileType','catraces','caTraceType','MO'),'fluorescence','cellArea');
+    load(getFilenames(fid{expIndex},'expcond',expCond{expIndex},'fileType','catraces','caTraceType','MO'),'fluorescence');
     load(getFilenames(fid{expIndex},'expcond',expCond{expIndex},'fileType','findOverlappingCells'));
     caobj=caData('fishid',fid{expIndex},'expcond',expCond{expIndex},'NMF',true,'loadImages',false,'loadCCMap',false);
     
@@ -32,6 +34,7 @@ for expIndex = expIndexV
     
     for planeIndex=planeIndexV
         NMO=size(fluorescence{planeIndex},2);
+        nmo = nmo+NMO;
         overlappingCellIndices = sameCells.EPvsIMO{planeIndex}(:,3)>=hop;
         if size(sameCells.EPvsIMO{planeIndex},1) == NMO
             % the indices in sameCells structure correspond to
@@ -112,6 +115,7 @@ for expIndex = expIndexV
             
             nonActiveStat = [nonActiveStat;nonActiveMax'];
             activeStat = [activeStat;activeMax'];
+            MOStat = [MOStat;max(dff(fluorescence{planeIndex}))';];
             % size(caobj.fluorescence{10},2) ensures that nonactive cell
             % IDs will not overlap with NMF cell ids. 1:length(nonActive) ensures 
             % that we ignore overlapping cells
@@ -120,8 +124,11 @@ for expIndex = expIndexV
         
             cellIDs.NMF = [cellIDs.NMF;[ones(length(activeMax),1)*[expIndex planeIndex],...
                 (1:numNMF)' true(numNMF,1)]];
-             cellIDs.MO = [cellIDs.MO;[ones(length(nonActiveMax),1)*[expIndex planeIndex],...
-                (1:length(nonActiveCells))' false(length(nonActiveCells),1)]];
+          %   cellIDs.MO = [cellIDs.MO;[ones(length(nonActiveMax),1)*[expIndex planeIndex],...
+           %     (1:length(nonActiveCells))' false(length(nonActiveCells),1)]];
+           notA = false(NMO,1);notA(nonActiveCells)=true; 
+           cellIDs.MO = [cellIDs.MO;[ones(NMO,1)*[expIndex planeIndex],...
+               notA (1:NMO)']];
         elseif strcmp(options.stat,'corr')
             % here is another fun stat -- the correlation between and a point imaged 3.1 seconds
             % later. noise and sngle spikes separated by long intervals should have no
@@ -135,5 +142,5 @@ for expIndex = expIndexV
         end
     end
 end
-
+fprintf('N MO cells  %d\n',nmo);
 end

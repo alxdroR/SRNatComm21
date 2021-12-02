@@ -60,6 +60,7 @@ data.medCCVsFAblShuff = cell(length(minCutoffs),1);
 medCC = NaN(length(minCutoffs),2);
 numFish = NaN(length(minCutoffs),1);
 numFixations =  NaN(length(minCutoffs),1);
+pvals =  NaN(length(minCutoffs),1);
 count = 1;
 for cutoff = minCutoffs
     minNumFixCut = minNumFixations;
@@ -94,8 +95,14 @@ for cutoff = minCutoffs
         error('control not significant')
         fprintf('and differed significantly from randomly shuffled controls (p = %0.6f; one-sided two-sample KS Test\n)',p);
     end
+    pvals(count) = p;
     count = count+1;
 end
+% 
+% H = holmBonCorrection(pvals,0.01);
+levelA = 0.001;
+H = holmBonCorrection(pvals,levelA);
+fprintf('All p-values are significant at level %0.4f (one-sided, two-sample KStest, n=%d samples for each; number of non-significant=%d\n',levelA,length(effectStats),sum(~H));
 data.NminFloorValues = minCutoffs;
 data.Nmins = numFixations;
 data.numFish = numFish;

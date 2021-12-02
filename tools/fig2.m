@@ -157,7 +157,7 @@ classdef fig2 < figures & srPaperPlots
             activityEyeObj.plot;
         end
         function [obj,varargout]=runPlotSTRSTAClass(obj,ID,varargin)
-           options = struct('timeOffset2plot',[],'axesOverlap',[],'showAxis',true,'strstaFilename',[]);
+           options = struct('timeOffset2plot',[],'axesOverlap',[],'showAxis',true,'strstaFilename',[],'addScale',false);
             options = parseNameValueoptions(options,varargin{:});
             
             if ~isempty(obj.deconvSTA)
@@ -173,7 +173,8 @@ classdef fig2 < figures & srPaperPlots
                 'time',bt,'STRL',STRL,'STRR',STRR,'STA',sta2plot,'STACIL',staCIL2plot,'STACIU',staCIU2plot,'deconvSTA',deconvSTA,....
                 'dFRange',obj.STRDFRange,'rightSTAColor',obj.rightSTAColor,'leftSTAColor',obj.leftSTAColor,...
                 'lineAtZeroWidth',obj.lineAtZeroWidth,'spaceBetweenSTRLR',obj.spaceBetweenSTRLR,'tauLimits',obj.tauLimits,...
-                'strAXOffset',obj.strAXOffset,'strAXHeight',obj.strAXHeight,'staAXOffset',obj.staAXOffset,'staAXHeight',obj.staAXHeight,'deconvOffset',obj.deconvOffset);
+                'strAXOffset',obj.strAXOffset,'strAXHeight',obj.strAXHeight,'staAXOffset',obj.staAXOffset,'staAXHeight',obj.staAXHeight,...
+                'deconvOffset',obj.deconvOffset,'addScaleBar',options.addScale);
             
             strSTAObj.plot;
             [~,aind]= min(abs(bt-obj.tauLimits(1)));

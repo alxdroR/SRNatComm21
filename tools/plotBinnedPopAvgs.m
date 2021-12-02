@@ -260,10 +260,10 @@ classdef plotBinnedPopAvgs < figures & srPaperPlots
                                 text(obj.YLabelPosition(1),obj.YLabelPosition(2),obj.YLabel,'Rotation',90,...
                                     'FontName',obj.FontName,'Color',obj.FontColor,'FontSize',obj.FontSize,'Units','Normalized');
                             end
-                            text(obj.sortNameLabelPosition(1),obj.sortNameLabelPosition(2),obj.sortName,'Rotation',0,...
-                                'FontName',obj.FontName,'Color',obj.FontColor,'FontSize',obj.FontSize+1,'HorizontalAlignment','center');
-                            text(obj.sortNameEqualPosition(1),obj.sortNameEqualPosition(2),'=','Rotation',0,...
-                                'FontName',obj.FontName,'Color',obj.FontColor,'FontSize',obj.FontSize,'HorizontalAlignment','center');
+                        %    text(obj.sortNameLabelPosition(1),obj.sortNameLabelPosition(2),obj.sortName,'Rotation',0,...
+                         %       'FontName',obj.FontName,'Color',obj.FontColor,'FontSize',obj.FontSize+1,'HorizontalAlignment','center');
+                            %text(obj.sortNameEqualPosition(1),obj.sortNameEqualPosition(2),'=','Rotation',0,...
+                            %    'FontName',obj.FontName,'Color',obj.FontColor,'FontSize',obj.FontSize,'HorizontalAlignment','center');
                             isFirstPlot = false;
                         else
                             set(gca,'XTick',obj.XTick,'XTickLabel',[]);
@@ -272,7 +272,7 @@ classdef plotBinnedPopAvgs < figures & srPaperPlots
                         % do this to every plot
                         set(gca,'YTick',[],'YTickLabel',[]);box off;
                         setFontProperties(gca,'fontName',obj.FontName,'fontSize',obj.FontSize,'fontColor',obj.FontColor);
-                        set(gca,'YColor','w');
+                        set(gca,'YColor','w','Color',[1 1 1]*0.95);
                         text(obj.sortNameValuePosition(1),obj.sortNameValuePosition(2),[num2str(obj.data.binCenters(bindex)) '^\circ'],'FontWeight','normal','FontName',obj.FontName,'Color',obj.FontColor,'FontSize',obj.FontSize-1);
                         if ~isempty(obj.XLIM)
                             xlim(obj.XLIM);
@@ -284,7 +284,7 @@ classdef plotBinnedPopAvgs < figures & srPaperPlots
                         axis off
                     end
                 end
-                set(gcf,'PaperPosition',obj.paperPosition,'PaperSize',[11 11],'InvertHardcopy','off','Color',[1 1 1])
+                set(gcf,'Color',[1 1 1],'PaperPosition',obj.paperPosition,'PaperSize',[11 11],'InvertHardcopy','off')
                 
                 % print and save
                 obj.printFigure

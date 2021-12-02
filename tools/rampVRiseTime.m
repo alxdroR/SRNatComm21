@@ -34,13 +34,14 @@ errorbar(binCenters,binnedData,sqrt(binVar./numberSamp)); hold on;
 if ~isempty(options.YLIM)
     ylim(options.YLIM);
 end
-xlim([-11.1 -0.5]);box off;xlabel('time of activity rise (s)');ylabel(options.YLabel);setFontProperties(gca)
+xlim([-11.1 -0.5]);box off;xlabel('activity rise-time (s)');ylabel(options.YLabel);setFontProperties(gca)
 set(gcf,'PaperPosition',[0 0 2.2 2.2])
 
 % print and save 
 thisFileName = mfilename;
 printAndSave(thisFileName,'data',data)
-[nc,nf,ne]=getSampleSizeFromSRMatrix(fixationIDs(riseMeasured,:));
+fixationIDsCut = fixationIDs(gofCriteria,:);
+[nc,nf,ne]=getSampleSizeFromSRMatrix(fixationIDsCut(riseMeasured,:));
 fprintf('%d fixations from %d cells examined over %d independent fish\n',ne,nc,nf)
 fprintf('sample size per bin ranges from %d-%d fixations\n',max(10,min(numberSamp)),max(numberSamp));
 if saveCSV

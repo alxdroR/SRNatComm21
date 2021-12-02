@@ -99,7 +99,7 @@ else
         %  print(gcf,'-dpdf',[rootLocation '\resubmission\figuresNEW\figurePanels\kMeansClusterCenterPlotsScaleBar'])
     end
 end
-if saveCSV && ~options.plotScaleBarOnly
+if saveCSV & ~options.plotScaleBarOnly
     [~,~,fileDirs] = rootDirectories;
     fileID = fopen([fileDirs.scDataCSV 'Supplementary Figure 2c.csv'],'a');
     fprintf(fileID,'Panel\nc\n');
